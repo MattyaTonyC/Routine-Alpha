@@ -1,0 +1,26 @@
+{
+  "$GMSound":"v2",
+  "%Name":"snd_pen_1",
+  "audioGroupId":{
+    "name":"sounds",
+    "path":"audiogroups/sounds",
+  },
+  "bitDepth":1,
+  "channelFormat":0,
+  "compression":0,
+  "compressionQuality":4,
+  "conversionMode":0,
+  "duration":0.27138323,
+  "exportDir":"",
+  "name":"snd_pen_1",
+  "parent":{
+    "name":"sounds",
+    "path":"folders/audio/sounds.yy",
+  },
+  "preload":false,
+  "resourceType":"GMSound",
+  "resourceVersion":"2.0",
+  "sampleRate":44100,
+  "soundFile":"snd_pen_1.mp3",
+  "volume":1.0,
+}

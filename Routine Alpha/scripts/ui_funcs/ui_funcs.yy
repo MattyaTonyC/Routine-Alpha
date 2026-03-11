@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"ui_funcs",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"ui_funcs",
+  "parent":{
+    "name":"system",
+    "path":"folders/system.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

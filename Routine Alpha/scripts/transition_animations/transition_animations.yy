@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"transition_animations",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"transition_animations",
+  "parent":{
+    "name":"persistent",
+    "path":"folders/system/persistent.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
