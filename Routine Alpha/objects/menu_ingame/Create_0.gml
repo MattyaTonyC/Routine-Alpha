@@ -10,3 +10,4 @@ settings_opened = false
 inv_opened = false
 hover = { inv:noone, slot:noone }
 drag = { inv:noone, slot:noone }
+drag_hold = new empty_slot()

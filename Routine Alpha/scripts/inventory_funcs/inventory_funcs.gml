@@ -31,10 +31,7 @@ function inventory_draw( x0,y0, inv, row_len=array_length(inv) ) {
 		draw_rectangle( sx-10,sy-10, sx+10,sy+10, true )
 		draw_set_colour(c_white)
 		
-		var show = true
-		if (menu_ingame.drag.inv != noone) if (inv[i] == menu_ingame.drag.inv[menu_ingame.drag.slot]) show = false
-		
-		if (inv[i].id != noone) && (show) {
+		if (inv[i].id != noone) {
 			var info = struct_get( global.item_list, inv[i].id )
 			
 			draw_sprite_ext( info.icon,0, sx,sy, 10,10,0, c_white,1 )

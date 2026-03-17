@@ -5,10 +5,6 @@ var mx = window_mouse_get_x() / window_get_width() * gui_w
 var my = window_mouse_get_y() / window_get_height() * gui_h
 
 //
-hover.inv = noone
-hover.slot = noone
-
-//
 if (keyboard_check_pressed(vk_escape)) pause_menu = !pause_menu
 
 if (pause_menu) {
@@ -73,7 +69,19 @@ if (!pause_menu) {
 	draw_set_colour(c_white)
 	
 	//
+	hover.inv = noone
+	hover.slot = noone
 	if (keyboard_check_pressed(vk_tab)) inv_opened = !inv_opened
+	if (!inv_opened) {
+		if (drag.inv != noone) {
+			drag.inv[drag.slot].id = drag_hold.id
+			drag.inv[drag.slot].count += drag_hold.count
+		}
+		drag.inv = noone
+		drag.slot = noone
+		drag_hold.id = noone
+		drag_hold.count = 0
+	}
 	
 	inventory_draw( gui_w/2, gui_h-75, o_player.inventory.active )
 	
@@ -109,48 +117,58 @@ if (!pause_menu) {
 		if (mouse_check_button_pressed(mb_left)) && (hover.inv != noone) if (hover.inv[hover.slot].id != noone) {
 			drag.inv = hover.inv
 			drag.slot = hover.slot
+			drag_hold.id = hover.inv[hover.slot].id
+			drag_hold.count = hover.inv[hover.slot].count
+			hover.inv[hover.slot].id = noone
+			hover.inv[hover.slot].count = 0
 		}
 		
 		if (drag.inv != noone) {
-			var info = struct_get( global.item_list, drag.inv[drag.slot].id )
+			var info = struct_get( global.item_list, drag_hold.id )
 			
 			draw_sprite_ext( info.icon,0, mx,my, 10,10,0, c_white,1)
 			
 			draw_set_colour(c_black); draw_set_alpha(0.5)
-			draw_rectangle( mx+50-string_width(drag.inv[drag.slot].count)/2-2,my+50-string_height(drag.inv[drag.slot].count)/2+1, mx+50,my+50, false )
+			draw_rectangle( mx+50-string_width(drag_hold.count)/2-2,my+50-string_height(drag_hold.count)/2+1, mx+50,my+50, false )
 			draw_set_colour(c_white); draw_set_alpha(1)
 			
 			draw_set_halign(fa_right); draw_set_valign(fa_bottom)
-			draw_text_transformed( mx+50,my+50, drag.inv[drag.slot].count, 0.5,0.5,0 )
+			draw_text_transformed( mx+50,my+50, drag_hold.count, 0.5,0.5,0 )
 			draw_set_halign(fa_left); draw_set_valign(fa_top)
 		}
 		
 		if (mouse_check_button_released(mb_left)) && (drag.inv != noone) {
 			if (hover.inv != noone) {
-				if ((hover.inv != drag.inv) || (hover.slot != drag.slot)) && (hover.inv[hover.slot].id == drag.inv[drag.slot].id) {
-					hover.inv[hover.slot].count += drag.inv[drag.slot].count
-					drag.inv[drag.slot].id = noone
-					drag.inv[drag.slot].count = 0
-				}
+				if (hover.inv[hover.slot].id == drag_hold.id) hover.inv[hover.slot].count += drag_hold.count
 				else {
-					var temp = hover.inv[hover.slot]
-					hover.inv[hover.slot] = drag.inv[drag.slot]
-					drag.inv[drag.slot] = temp
+					if (hover.inv[hover.slot].id != noone) {
+						drag.inv[drag.slot].id = hover.inv[hover.slot].id
+						drag.inv[drag.slot].count = hover.inv[hover.slot].count
+					}
+					hover.inv[hover.slot].id = drag_hold.id
+					hover.inv[hover.slot].count = drag_hold.count
 				}
+			}
+			else {
+				drag.inv[drag.slot].id = drag_hold.id
+				drag.inv[drag.slot].count += drag_hold.count
 			}
 			drag.inv = noone
 			drag.slot = noone
+			drag_hold.id = noone
+			drag_hold.count = noone
 		}
 		
-		if (mouse_check_button_released(mb_right)) && (drag.inv != noone) {
-			if (hover.inv != noone) if (hover.inv[hover.slot].id == noone) || (hover.inv[hover.slot].id == drag.inv[drag.slot].id) {
-				drag.inv[drag.slot].count -= 1
-				hover.inv[hover.slot].id = drag.inv[drag.slot].id
+		if (mouse_check_button_pressed(mb_right)) && (drag.inv != noone) {
+			if (hover.inv != noone) if (hover.inv[hover.slot].id == noone) || (hover.inv[hover.slot].id == drag_hold.id) {
+				drag_hold.count -= 1
+				hover.inv[hover.slot].id = drag_hold.id
 				hover.inv[hover.slot].count += 1
-				if (drag.inv[drag.slot].count == 0) {
-					drag.inv[drag.slot].id = noone
+				if (drag_hold.count == 0) {
 					drag.inv = noone
 					drag.slot = noone
+					drag_hold.id = noone
+					drag_hold.count = 0
 				}
 			}
 		}
