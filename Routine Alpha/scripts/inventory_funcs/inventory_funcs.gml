@@ -36,13 +36,15 @@ function inventory_draw( x0,y0, inv, row_len=array_length(inv) ) {
 			
 			draw_sprite_ext( info.icon,0, sx,sy, 10,10,0, c_white,1 )
 			
-			draw_set_colour(c_black); draw_set_alpha(0.5)
-			draw_rectangle( sx+50-string_width(inv[i].count)/2-2,sy+50-string_height(inv[i].count)/2+1, sx+50,sy+50, false )
-			draw_set_colour(c_white); draw_set_alpha(1)
-			
-			draw_set_halign(fa_right); draw_set_valign(fa_bottom)
-			draw_text_transformed( sx+50,sy+50, inv[i].count, 0.5,0.5,0 )
-			draw_set_halign(fa_left); draw_set_valign(fa_top)
+			if (inv[i].count != 1) {
+				draw_set_colour(c_black); draw_set_alpha(0.5)
+				draw_rectangle( sx+50-string_width(inv[i].count)/2-2,sy+50-string_height(inv[i].count)/2+1, sx+50,sy+50, false )
+				draw_set_colour(c_white); draw_set_alpha(1)
+				
+				draw_set_halign(fa_right); draw_set_valign(fa_bottom)
+				draw_text_transformed( sx+50,sy+50, inv[i].count, 0.5,0.5,0 )
+				draw_set_halign(fa_left); draw_set_valign(fa_top)
+			}
 		}
 		
 		var inside = point_in_rectangle( mx,my, sx-50,sy-50, sx+50,sy+50 )
@@ -51,4 +53,22 @@ function inventory_draw( x0,y0, inv, row_len=array_length(inv) ) {
 			menu_ingame.hover.slot = i
 		}
 	}
+}
+
+//
+function inventory_add( inv, item ) {
+	var target_slot = noone
+	for (var i=0; i<array_length(inv); i++) {
+		if (inv[i].id == noone) && (target_slot == noone) target_slot = i
+		if (inv[i].id == item.id) {
+			target_slot = i
+			break
+		}
+	}
+	
+	if (target_slot == noone) return false
+	
+	inv[target_slot].id = item.id
+	inv[target_slot].count += item.count
+	return true
 }

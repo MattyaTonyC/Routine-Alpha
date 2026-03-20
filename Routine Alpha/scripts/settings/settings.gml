@@ -2,8 +2,8 @@
 ini_open("settings")
 settings = {
 	master_volume: ini_read_real( "audio", "master_volume", 0.5 ),
-	sound_volume: ini_read_real( "audio", "sound_volume", 0 ),
-	music_volume: ini_read_real( "audio", "music_volume", 0 ),
+	sound_volume: ini_read_real( "audio", "sound_volume", 0.5 ),
+	music_volume: ini_read_real( "audio", "music_volume", 0.5 ),
 	silent_without_focus: ini_read_real( "audio", "silent_without_focus", 0 ),
 	
 	fullscreen_screen: ini_read_real( "video", "fullscreen_screen", 1 ),

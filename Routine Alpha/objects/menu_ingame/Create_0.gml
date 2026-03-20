@@ -11,3 +11,4 @@ inv_opened = false
 hover = { inv:noone, slot:noone }
 drag = { inv:noone, slot:noone }
 drag_hold = new empty_slot()
+mouse_prev = { x:0, y:0 }

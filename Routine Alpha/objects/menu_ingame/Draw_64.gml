@@ -68,7 +68,7 @@ if (!pause_menu) {
 	draw_rectangle( gui_w/2-200,25, gui_w/2-200+4*o_player.hp,50, false )
 	draw_set_colour(c_white)
 	
-	//
+	/// ИНВЕНТАРЬ
 	hover.inv = noone
 	hover.slot = noone
 	if (keyboard_check_pressed(vk_tab)) inv_opened = !inv_opened
@@ -86,6 +86,11 @@ if (!pause_menu) {
 	inventory_draw( gui_w/2, gui_h-75, o_player.inventory.active )
 	
 	if (inv_opened) {
+		draw_set_valign(fa_bottom)
+		var str = "ЛКМ - взять предмет\nПКМ - скинуть 1\nSHIFT + ЛКМ/ПКМ - сложить"
+		draw_text_transformed( 75, gui_h-75, str, 0.5,0.5,0 )
+		draw_set_valign(fa_top)
+		
 		var inst = noone
 		var interactive = noone
 		if (instance_exists(o_storage)) {
@@ -114,7 +119,7 @@ if (!pause_menu) {
 		}
 		
 		//
-		if (mouse_check_button_pressed(mb_left)) && (hover.inv != noone) if (hover.inv[hover.slot].id != noone) {
+		if (!keyboard_check(vk_shift) && mouse_check_button_pressed(mb_left)) && (hover.inv != noone) if (hover.inv[hover.slot].id != noone) {
 			drag.inv = hover.inv
 			drag.slot = hover.slot
 			drag_hold.id = hover.inv[hover.slot].id
@@ -126,15 +131,17 @@ if (!pause_menu) {
 		if (drag.inv != noone) {
 			var info = struct_get( global.item_list, drag_hold.id )
 			
-			draw_sprite_ext( info.icon,0, mx,my, 10,10,0, c_white,1)
+			draw_sprite_ext( info.icon,0, mouse_prev.x,mouse_prev.y, 10,10,clamp(mouse_prev.x-mx,-60,60), c_white,1)
 			
-			draw_set_colour(c_black); draw_set_alpha(0.5)
-			draw_rectangle( mx+50-string_width(drag_hold.count)/2-2,my+50-string_height(drag_hold.count)/2+1, mx+50,my+50, false )
-			draw_set_colour(c_white); draw_set_alpha(1)
-			
-			draw_set_halign(fa_right); draw_set_valign(fa_bottom)
-			draw_text_transformed( mx+50,my+50, drag_hold.count, 0.5,0.5,0 )
-			draw_set_halign(fa_left); draw_set_valign(fa_top)
+			if (drag_hold.count != 1) {
+				draw_set_colour(c_black); draw_set_alpha(0.5)
+				draw_rectangle( mx+50-string_width(drag_hold.count)/2-2,my+50-string_height(drag_hold.count)/2+1, mx+50,my+50, false )
+				draw_set_colour(c_white); draw_set_alpha(1)
+				
+				draw_set_halign(fa_right); draw_set_valign(fa_bottom)
+				draw_text_transformed( mx+50,my+50, drag_hold.count, 0.5,0.5,0 )
+				draw_set_halign(fa_left); draw_set_valign(fa_top)
+			}
 		}
 		
 		if (mouse_check_button_released(mb_left)) && (drag.inv != noone) {
@@ -172,5 +179,30 @@ if (!pause_menu) {
 				}
 			}
 		}
+		
+		if (keyboard_check(vk_shift) && mouse_check_button_pressed(mb_any)) && (drag.inv == noone) && (hover.inv != noone) if (hover.inv[hover.slot].id != noone) {
+			var target_inv = o_player.inventory.passive
+			switch (hover.inv) {
+				case (o_player.inventory.active):
+					target_inv = interactive
+					if (interactive == noone) || (mouse_check_button_pressed(mb_left)) target_inv = o_player.inventory.passive
+					break
+				case (o_player.inventory.passive):
+					target_inv = o_player.inventory.active
+					if (interactive != noone) && (mouse_check_button_pressed(mb_left)) target_inv = interactive
+					break
+				default:
+					target_inv = o_player.inventory.passive
+					if (mouse_check_button_pressed(mb_left)) target_inv = o_player.inventory.active
+			}
+			var success = inventory_add( target_inv, hover.inv[hover.slot] )
+			if (success) {
+				hover.inv[hover.slot].id = noone
+				hover.inv[hover.slot].count = 0
+			}
+		}
 	}
 }
+
+mouse_prev.x = mx
+mouse_prev.y = my

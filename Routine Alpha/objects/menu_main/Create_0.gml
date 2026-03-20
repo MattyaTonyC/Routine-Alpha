@@ -10,7 +10,11 @@ settings_opened = false
 //
 buttons = [
 	{ text:"Продолжить", func:function(){}, pressed:false },
-	{ text:"Новая игра", func:function(){transition.target = r_house}, pressed:false },
+	{ text:"Новая игра", func:function() {
+		global.entrance = 0
+		global.inventory = noone
+		transition.target = r_house}, pressed:false
+	},
 	{ text:"Настройки", func:function(){menu_main.settings_opened = !menu_main.settings_opened}, pressed:false },
 	{ text:"Выход", func:function(){transition.target = r_game_end}, pressed:false },
 ]

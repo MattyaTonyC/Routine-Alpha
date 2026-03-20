@@ -19,5 +19,6 @@ switch (room) {
 		instance_create_layer( 0,0, "System", menu_ingame )
 		instance_create_layer( 0,0, "System", room_filler )
 		instance_create_layer( 0,0, "System", camera )
+		instance_create_layer( 0,0, "System", draw_manager )
 		break
 }
