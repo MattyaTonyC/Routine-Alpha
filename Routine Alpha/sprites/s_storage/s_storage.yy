@@ -45,7 +45,7 @@
   "origin":4,
   "parent":{
     "name":"storage",
-    "path":"folders/storage.yy",
+    "path":"folders/objects/storage.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

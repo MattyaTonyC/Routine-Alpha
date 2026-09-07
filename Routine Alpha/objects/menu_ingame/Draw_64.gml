@@ -61,11 +61,13 @@ if (!pause_menu) {
 	pause_menu_prev = false
 	
 	//
-	draw_set_colour(c_maroon)
-	draw_rectangle( gui_w/2-200,25, gui_w/2+200,50, false )
-	draw_rectangle( gui_w/2-200-2,25-2, gui_w/2+200+3,50+3, true )
-	draw_set_colour(c_red)
-	draw_rectangle( gui_w/2-200,25, gui_w/2-200+4*o_player.hp,50, false )
+	var col1 = make_colour_rgb(255,25,75)
+	var col2 = make_colour_rgb(127.5,12.5,37.5)
+	
+	draw_set_colour(col2)
+	draw_rectangle( gui_w/2-200-6, 25-6, gui_w/2+200+6, 50+6, false )
+	draw_set_colour(col1)
+	draw_rectangle( gui_w/2-200, 25, gui_w/2-200+4*o_player.hp,50, false )
 	draw_set_colour(c_white)
 	
 	/// ИНВЕНТАРЬ
@@ -86,8 +88,12 @@ if (!pause_menu) {
 	inventory_draw( gui_w/2, gui_h-75, o_player.inventory.active )
 	
 	if (inv_opened) {
-		draw_set_valign(fa_bottom)
 		var str = "ЛКМ - взять предмет\nПКМ - скинуть 1\nSHIFT + ЛКМ/ПКМ - сложить"
+		draw_set_colour(c_black); draw_set_alpha(0.5)
+		draw_rectangle( 75-10, gui_h-75-string_height(str)/2-10, 75+string_width(str)/2+10, gui_h-75+10, false )
+		draw_set_colour(c_white); draw_set_alpha(1)
+		
+		draw_set_valign(fa_bottom)
 		draw_text_transformed( 75, gui_h-75, str, 0.5,0.5,0 )
 		draw_set_valign(fa_top)
 		
@@ -97,9 +103,9 @@ if (!pause_menu) {
 			inst = instance_nearest( o_player.x,o_player.y, o_storage )
 			var dis = point_distance( o_player.x,o_player.y, inst.x,inst.y )
 			
-			if (dis <= 15) {
+			if (dis <= 14) {
 				interactive = inst.inventory.passive
-				inst.is_open = true
+				draw_manager.select_inst = inst
 			}
 		}
 		
@@ -206,3 +212,26 @@ if (!pause_menu) {
 
 mouse_prev.x = mx
 mouse_prev.y = my
+
+///
+if (!inv_opened) && (!pause_menu) if (!o_player.vehicle_mode) with (o_player) {
+	var inst = noone
+	var dist = 0
+	for (var i=0; i<array_length(global.interact_list); i++) {
+		var inst_temp = instance_nearest( x,y, global.interact_list[i] )
+		if (inst_temp == noone) continue
+		
+		dist = point_distance(x,y,inst_temp.x,inst_temp.y)
+		if (dist > 14) continue
+		
+		if (inst == noone) {
+			inst = inst_temp
+			continue
+		}
+		if (dist < point_distance(x,y,inst.x,inst.y)) inst = inst_temp
+	}
+	if (inst != noone) {
+		draw_manager.select_inst = inst
+		if (keyboard_check_pressed(ord("E"))) with (inst) func()
+	}
+}

@@ -33,7 +33,7 @@ function draw_settings( x0,y0, type ) {
 				{ text: "Общая", setting: "master_volume", type: "slider" },
 				{ text: "Звуки", setting: "sound_volume", type: "slider" },
 				{ text: "Музыка", setting: "music_volume", type: "slider" },
-				{ text: "Вне фокуса", setting: "silent_without_focus", type: "checkbox" }
+				{ text: "Вне фокуса*", setting: "silent_without_focus", type: "checkbox" }
 			]
 			break
 		case (1):
@@ -41,8 +41,8 @@ function draw_settings( x0,y0, type ) {
 			info = [
 				{ text: "Полный экран", setting: "fullscreen_screen", type: "checkbox" },
 				{ text: "Безрамочный", setting: "borderless_screen", type: "checkbox" },
-				{ text: "Верт.синхр.", setting: "vsync", type: "checkbox" },
-				{ text: "Постпроц.", setting: "postprocessing", type: "checkbox" }
+				{ text: "Верт.синхр.*", setting: "vsync", type: "checkbox" },
+				{ text: "Постпроц.*", setting: "postprocessing", type: "checkbox" }
 			]
 			break
 		case (2):
@@ -50,7 +50,7 @@ function draw_settings( x0,y0, type ) {
 			info = [
 				{ text: "Плавность", setting: "camera_smoothness", type: "slider" },
 				{ text: "Влияние мыши", setting: "camera_mouse_influence", type: "slider" },
-				{ text: "Тряска", setting: "camera_shaking", type: "slider" },
+				{ text: "Тряска*", setting: "camera_shaking", type: "slider" },
 				{ text: "Скорость зума", setting: "camera_zoom_speed", type: "slider" }
 			]
 			break
@@ -73,9 +73,17 @@ function draw_settings( x0,y0, type ) {
 		var setting = struct_get( global.settings, info[i].setting )
 		switch (info[i].type) {
 			case ("slider"):
-				draw_line_width( x0+w-120,ui_y+15, x0+w-20,ui_y+15, 2 )
-				draw_rectangle( x0+w-120-5+setting*100,ui_y+5, x0+w-120+5+setting*100,ui_y+25, true )
-				draw_rectangle( x0+w-120-3+setting*100,ui_y+7, x0+w-120+2+setting*100,ui_y+22, false )
+				//draw_line_width( x0+w-120,ui_y+15, x0+w-20,ui_y+15, 2 )
+				//draw_rectangle( x0+w-120-5+setting*100,ui_y+5, x0+w-120+5+setting*100,ui_y+25, true )
+				draw_set_colour(c_dkgray)
+				draw_rectangle( x0+w-120,ui_y+3, x0+w-20,ui_y+27, true )
+				draw_rectangle( x0+w-120+10,ui_y+3, x0+w-20-10-1,ui_y+27, true )
+				draw_rectangle( x0+w-120+20,ui_y+3, x0+w-20-20-1,ui_y+27, true )
+				draw_rectangle( x0+w-120+30,ui_y+3, x0+w-20-30-1,ui_y+27, true )
+				draw_rectangle( x0+w-120+40,ui_y+3, x0+w-20-40-1,ui_y+27, true )
+				draw_set_colour(c_white)
+				draw_rectangle( x0+w-120-7,ui_y+3, x0+w-20+6,ui_y+27, true )
+				draw_rectangle( x0+w-120-4.5+setting*100,ui_y+7, x0+w-120+3.5+setting*100,ui_y+22, false )
 				
 				var inside = point_in_rectangle( mx,my, x0+w-120-5,ui_y+5, x0+w-20+5,ui_y+25 )
 				var click = mouse_check_button(mb_left)

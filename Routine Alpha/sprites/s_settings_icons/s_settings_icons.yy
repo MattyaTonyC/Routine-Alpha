@@ -28,8 +28,8 @@
   "nineSlice":null,
   "origin":4,
   "parent":{
-    "name":"menu_main",
-    "path":"folders/system/menu_main.yy",
+    "name":"system",
+    "path":"folders/system.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

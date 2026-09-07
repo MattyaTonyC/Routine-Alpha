@@ -20,16 +20,24 @@ function inventory_draw( x0,y0, inv, row_len=array_length(inv) ) {
 	
 	draw_set_colour(c_black); draw_set_alpha(0.5)
 	draw_rectangle( x0-125*(row_len-1)/2-61, y0-60, x0+125*(row_len-1)/2+60, y0+125*((array_length(inv)-1)div row_len)+61, false )
-	draw_set_colour(c_white); draw_set_alpha(1)
-	draw_rectangle( x0-125*(row_len-1)/2-61, y0-60, x0+125*(row_len-1)/2+60, y0+125*((array_length(inv)-1)div row_len)+61, true )
+	draw_set_colour(c_white)
+	//draw_rectangle( x0-125*(row_len-1)/2-61, y0-60, x0+125*(row_len-1)/2+60, y0+125*((array_length(inv)-1)div row_len)+61, true )
+	
+	draw_line_width( x0-125*(row_len-1)/2-61-2.5, y0-60, x0+125*(row_len-1)/2+60+2.5, y0-60, 5 )
+	draw_line_width( x0-125*(row_len-1)/2-61-2.5, y0+125*((array_length(inv)-1)div row_len)+61, x0+125*(row_len-1)/2+60+2.5, y0+125*((array_length(inv)-1)div row_len)+61, 5 )
+	draw_line_width( x0-125*(row_len-1)/2-61, y0-60+2.5, x0-125*(row_len-1)/2-61, y0+125*((array_length(inv)-1)div row_len)+61-2.5, 5 )
+	draw_line_width( x0+125*(row_len-1)/2+60, y0-60+2.5, x0+125*(row_len-1)/2+60, y0+125*((array_length(inv)-1)div row_len)+61-2.5, 5 )
+	
+	draw_set_alpha(1)
+	
 	
 	for (var i=0; i<array_length(inv); i++) {
 		var sx = x0 + 125*((i mod row_len) - (row_len-1)/2)
 		var sy = y0 + 125*(i div row_len)
 		
-		draw_set_colour(c_dkgray)
-		draw_rectangle( sx-10,sy-10, sx+10,sy+10, true )
-		draw_set_colour(c_white)
+		draw_set_colour(c_dkgray); draw_set_alpha(0.5)
+		draw_rectangle( sx-10,sy-10, sx+10,sy+10, false )
+		draw_set_colour(c_white); draw_set_alpha(1)
 		
 		if (inv[i].id != noone) {
 			var info = struct_get( global.item_list, inv[i].id )

@@ -1,3 +1,3 @@
 //
-player_ts = { x:0, y:0, xprev:0, yprev:0 }
-wall_dis = 10
+player_ts = { x:-4, y:-4, xprev:0, yprev:0 }
+select_inst = noone

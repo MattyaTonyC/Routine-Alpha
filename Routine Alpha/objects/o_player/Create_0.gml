@@ -3,13 +3,14 @@ hp_max = 100
 hp = 70
 
 //
-acc = 0.15
-spd_max = 0.75
+acc = 0.1
+spd_max = 0.6
+spd_run = 0.6
 spd = { x:0, y:0 }
 
 //
+vehicle_mode = false
+
+//
 inventory = new inventory_create(4,6)
-inventory.active[0] = { id:"bread",count:1 }
-inventory.active[1] = { id:"salad",count:3 }
-inventory.active[2] = { id:"meat",count:7 }
-inventory.active[3] = { id:"mobilk",count:123 }
+inventory.active[0] = { id:"bread", count:1000000 }

@@ -25,8 +25,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"room_assets",
-    "path":"folders/room_assets.yy",
+    "name":"background",
+    "path":"folders/room_assets/background.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

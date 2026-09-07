@@ -8,12 +8,12 @@
     "TileSerialiseData":[],
   },
   "name":"ts_floors",
-  "out_columns":2,
+  "out_columns":11,
   "out_tilehborder":2,
   "out_tilevborder":2,
   "parent":{
-    "name":"room_assets",
-    "path":"folders/room_assets.yy",
+    "name":"layout",
+    "path":"folders/room_assets/layout.yy",
   },
   "resourceType":"GMTileSet",
   "resourceVersion":"2.0",
@@ -34,5 +34,5 @@
   "tileWidth":10,
   "tilexoff":0,
   "tileyoff":0,
-  "tile_count":4,
+  "tile_count":120,
 }
